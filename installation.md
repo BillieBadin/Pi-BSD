@@ -14,7 +14,9 @@
 - Connect as user `freebsd` (password `freebsd`)
 - Elevate as root `su - root` (password `root`)
 - The Raspberry pi doesn't have a Real Time Clock, it is therefore essential to set the system clock once with ntp to avoid certificate errors during the installation process:
-  - execute `ntpdate pool.ntp.org`
+```sh
+ntpdate pool.ntp.org
+```
 - Load ZFS kernel module:
   - execute: `kldload zfs`
 - Connect the USB-attached storage device(s)
