@@ -2,7 +2,7 @@
 
 The following example blocks a certain (jailed) user from going outside of the jail network.
 
-It complements both [WireGuard](../WireGuard.md) and [bastille](../bastille/bastille.md) examples in this repository.
+It complements both [WireGuard](../WireGuard/WireGuard.md) and [bastille](../bastille/bastille.md) examples in this repository.
 
 ```sh
 kldload pf
