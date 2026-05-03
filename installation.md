@@ -94,8 +94,48 @@ kernel=u-boot.bin
 
 At this stage, only one of the USB media will have the right files to boot. The zroot ZFS pool is safe from single point of failure because it is mirrored but the boot is only on one of the two USB mass storage devices. We wil lcopy it on the secondary one for full USB drive fault tolerance.
 
+# Identify EFI partitions explicitly
 ```sh
+gpart show
+# you should have two efi partitions
 
+mount | grep efi
+# typically -> /dev/gpt/efiboot0 on /boot/efi (msdosfs, local)
+
+# confirm
+ls -l /dev/gpt/efiboot*
+-> typically /dev/gpt/efiboot0 and /dev/gpt/efiboot1
+
+# Confirm what's in fstab
+cat /etc/fstab
+# Device                Mountpoint      FStype  Options         Dump    Pass#
+/dev/gpt/efiboot0               /boot/efi       msdosfs rw              2       2
+
+# Create a mount point for the secondary efi partition and mount it
+mkdir -p /mnt/efi1
+mount -t msdosfs /dev/gpt/efiboot1 /mnt/efi1
+
+# Install rsync and use it to copy the files across
+pkg install rsync
+rsync -avh --delete /boot/efi/ /mnt/efi1/
+
+# Final verification
+diff -r /boot/efi /mnt/efi1
+```
+
+Optional sync script:
+```sh
+vi /usr/local/sbin/sync-efi.sh
+```
+```sh
+#!/bin/sh
+mount -t msdosfs /dev/gpt/efiboot0 /boot/efi
+mount -t msdosfs /dev/gpt/efiboot1 /mnt/efi1
+rsync -a --delete /boot/efi/ /mnt/efi1/
+umount /mnt/efi1
+```
+```sh
+chmod +x /usr/local/sbin/sync-efi.sh
 ```
 
 ### Power off
@@ -104,9 +144,7 @@ sync
 poweroff
 ```
 
-Remove the SD card, the system can now boot from USB
+You can now safely remove the SD card, the system can boot from (either) USB drive.
 
 ## Second boot
-
-
 
