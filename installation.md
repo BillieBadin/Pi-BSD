@@ -2,38 +2,74 @@
 
 ## Preparation
 
-- Grab the standard Raspberry 3/4 FreeBSD image from [here](https://www.freebsd.org/where/)
-  - see [here](https://download.freebsd.org/releases/arm64/aarch64/ISO-IMAGES/15.0/) for FreeBSD 15.0
-  - this guide uses [FreeBSD-15.0-RELEASE-arm64-aarch64-RPI.img.xz](https://download.freebsd.org/releases/arm64/aarch64/ISO-IMAGES/15.0/FreeBSD-15.0-RELEASE-arm64-aarch64-RPI.img.xz).
-- Flash the image on an SD card using the **Raspberry Pi Imager** tool
-- Prepare one or - better - two (for ZFS mirror) USB3+ USB flash drive(s) or external USB-attached SSD(s)
+Grab the standard Raspberry 3/4 FreeBSD image from [here](https://www.freebsd.org/where/).
+
+See [here](https://download.freebsd.org/releases/arm64/aarch64/ISO-IMAGES/15.0/) for FreeBSD 15.0
+
+This guide is based on [FreeBSD-15.0-RELEASE-arm64-aarch64-RPI.img.xz](https://download.freebsd.org/releases/arm64/aarch64/ISO-IMAGES/15.0/FreeBSD-15.0-RELEASE-arm64-aarch64-RPI.img.xz).
+
+Flash the image on an SD card using the **Raspberry Pi Imager** tool.
+
+Prepare one or two (for ZFS mirror) USB3+ USB-attached mass storage device(s): high grade USB keys, USB SSD enclusures, etc.
+
+---
 
 ## Initial installation
 
-- Boot without the USB storage attached to ensure the boot is from the micro-SD
-- Connect as user `freebsd` (password `freebsd`)
-- Elevate as root `su - root` (password `root`)
-- The Raspberry pi doesn't have a Real Time Clock, it is therefore essential to set the system clock once with ntp to avoid certificate errors during the installation process:
+Boot without the USB storage attached to ensure the boot is from the micro-SD only.
+
+Connect as user `freebsd` (password `freebsd`), and then elevate as root `su - root` (password `root`).
+
+The Raspberry pi doesn't have a Real Time Clock, it is therefore essential to set the system clock once with ntp to avoid certificate errors during the installation process:
 ```sh
 ntpdate pool.ntp.org
 ```
-- Load ZFS kernel module:
-  - execute: `kldload zfs`
-- Connect the USB-attached storage device(s)
-- Check they appear:
-  - execute `sysctl kern.disks` and `gpart show`
-  - the drive(s) should show up as `da0` (and `da1`)
-- Clean USB drive(s): `gpart destroy -F da0`, (`gpart destroy -F da1`)
-- Run the installer: `bsdinstall`
+
+Load ZFS kernel module:
+```sh
+kldload zfs
+```
+
+Plug the USB-attached mass storage device(s) and check their detection:
+```sh
+sysctl kern.disks
+gpart show
+```
+The drive(s) should show up as `da0` (and `da1`).
+
+Clean the USB mass storage device(s):
+```sh
+gpart destroy -F da0
+gpart destroy -F da1
+```
+
+Run the FreeBSD installer:
+```sh
+bsdinstall
+```
 
 Recommended options:
-- Services: sshd, ntpd, ntpd_sync_on_start, powerd
-- Hardening: hide_uids, hide_gids, hide_jails, secure_console
-- Add a user, include them in the wheel group, enable ZFS encryption for the home folder of that user, tied to the user password
+- Services:
+  - sshd
+  - ntpd
+  - ntpd_sync_on_start
+  - powerd
+- Hardening:
+  - hide_uids
+  - hide_gids
+  - hide_jails
+  - secure_console
 
-- reboot: `reboot`
-  - keep the SD card which wil lbe used for the Raspberry Pi firmware, but the actual OS will be loaded from the USB drive(s)
-  - the Raspberry Pi firmware will be copied to the USB drive(s) EFI partition after reboot
+Add a user, include them in the wheel group, optionally enable ZFS encryption for the home folder, tied to the user password.
+
+Reboot:
+```sh
+reboot
+```
+Keep the SD card which wil lbe used for the Raspberry Pi firmware; the actual OS will be loaded from the USB drive(s).
+The Raspberry Pi firmware will be copied to the USB drive(s) EFI partition after reboot to run micro SD-free.
+
+---
 
 ## First boot
 
@@ -45,11 +81,12 @@ pkg update
 pkg install sudo
 visudo
 ```
-Uncomment the line with `%wheel ALL=(ALL:ALL) ALL`
+Uncomment the following line: `%wheel ALL=(ALL:ALL) ALL`
 
-Logon as your regular user.
+## Logon as your regular user.
 
-Note that your encrypted ZFS home folder will not be mounted, we will fix this later.
+If you enabled user home encryption, the encrypted ZFS home folder will not be mounted automatically.
+This is covered [here: encrypted ZFS home](./ZFS/ZFS.md).
 
 Elevate as root: `sudo su -`
 
@@ -91,6 +128,8 @@ arm_64bit=1
 enable_uart=1
 kernel=u-boot.bin
 ```
+
+---
 
 ### Optional steps for ZFS mirror installations
 
@@ -148,7 +187,4 @@ poweroff
 
 You can now safely remove the SD card, the system can boot from (either) USB drive.
 
-## Second boot
-
-If you chose to encrypt your user's home directory, continue to [encrypted ZFS home](./ZFS.md)
 
