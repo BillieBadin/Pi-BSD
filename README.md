@@ -8,7 +8,7 @@ FreeBSD on Raspberry Pi 3/4 with ZFS on root, optional ZFS mirror, and more...
 
 ## Bonus
 
-- [Encrypted ZFS home](./ZFS.md)
+- [Encrypted ZFS home](./ZFS/ZFS.md)
 - [WireGuard](./WireGuard.md)
 - [bastille jails](./bastille/bastille.md)
 - [pf firewall](./pf/pf.md)
