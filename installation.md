@@ -92,7 +92,7 @@ kernel=u-boot.bin
 
 ### Optional steps for ZFS mirror installations
 
-At this stage, only one of the USB media will have the right files to boot. The zroot ZFS pool is safe from single point of failure because it is mirrored but the boot is only on one of the two USB mass storage devices. We wil lcopy it on the secondary one for full USB drive fault tolerance.
+At this stage, only one of the USB media will have the right files to boot. The zroot ZFS pool is safe from single point of failure because it is mirrored but the boot is only on one of the two USB mass storage devices. We will copy it on the secondary one for full USB drive fault tolerance.
 
 Identify EFI partitions explicitly and copy from primary to secondary USB drive:
 ```sh
