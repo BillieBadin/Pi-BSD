@@ -179,3 +179,21 @@ neo4j_status()
 run_rc_command "$1"
 ```
 
+Enable new service:
+```sh
+chmod +x /usr/local/etc/rc.d/neo4j
+sysrc neo4j_enable=YES
+service neo4j start
+```
+
+## Backup Neo4j (ZFS-style)
+
+```sh
+service neo4j stop
+pgrep -u neo4j java
+zfs snapshot zroot/home/neo4j@neo4j-$(date +%Y%m%d-%H%M)
+
+zfs list -t snapshot -r zroot/home/neo4j
+zfs list -t snapshot -r -o name,creation zroot/home/neo4j
+```
+
