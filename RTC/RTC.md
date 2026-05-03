@@ -20,6 +20,7 @@ iicbus_load="YES"
 iic_load="YES"
 ```
 
+Reboot:
 ```sh
 sync
 reboot
