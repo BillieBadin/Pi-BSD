@@ -47,6 +47,14 @@ cloned_interfaces="wg1"
 ifconfig_wg1="inet  N.N.N.N/M"
 ```
 
+Create hook
+```sh
+vi /etc/start_if.wg1
+```
+```conf
+#!/bin/sh
+/usr/bin/wg setconf $1 /usr/local/etc/wireguard/$1.conf
+```
 ```sh
 chmod +x /etc/start_if.wg2
 
