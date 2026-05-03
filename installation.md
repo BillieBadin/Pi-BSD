@@ -3,7 +3,7 @@
 ## Preparation
 
 - Grab the standard Raspberry 3/4 FreeBSD image from [here](https://www.freebsd.org/where/)
-  - see [here]([https://gitea.badin.au/Config/PWKS](https://download.freebsd.org/releases/arm64/aarch64/ISO-IMAGES/15.0/) for FreeBSD 15.0
+  - see [here](https://download.freebsd.org/releases/arm64/aarch64/ISO-IMAGES/15.0/) for FreeBSD 15.0
   - this guide uses [FreeBSD-15.0-RELEASE-arm64-aarch64-RPI.img.xz](https://download.freebsd.org/releases/arm64/aarch64/ISO-IMAGES/15.0/FreeBSD-15.0-RELEASE-arm64-aarch64-RPI.img.xz).
 - Flash the image on an SD card using the **Raspberry Pi Imager** tool
 - Prepare one or - better - two (for ZFS mirror) USB3+ USB flash drive(s) or external USB-attached SSD(s)
