@@ -21,7 +21,7 @@ zfs set mountpoint=/usr/local/bastille/logs zroot/bastille/logs
 
 ## Create your first jail
 
-This example assumes a `wg1` Wireguard interface was create as documented [here](./WIreGuard.md).
+This example assumes a `wg1` Wireguard interface was create as documented [here](../WireGuard.md).
 
 ```sh
 bastille bootstrap 15.0-RELEASE-p8
