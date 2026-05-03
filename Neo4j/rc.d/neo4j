@@ -1,0 +1,45 @@
+#!/bin/sh
+
+# PROVIDE: neo4j
+# REQUIRE: LOGIN
+# KEYWORD: shutdown
+
+. /etc/rc.subr
+
+name="neo4j"
+rcvar="neo4j_enable"
+
+load_rc_config "$name"
+
+: ${neo4j_enable:="NO"}
+: ${neo4j_user:="neo4j"}
+: ${neo4j_home:="/home/neo4j"}
+: ${neo4j_java_home:="/usr/local/openjdk25-jre-headless"}
+
+command="${neo4j_home}/bin/neo4j.sh"
+
+start_cmd="neo4j_start"
+stop_cmd="neo4j_stop"
+status_cmd="neo4j_status"
+
+neo4j_run()
+{
+    su -m "${neo4j_user}" -c "env JAVA_HOME='${neo4j_java_home}' PATH='${neo4j_java_home}/bin:/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin' '${command}' $1"
+}
+
+neo4j_start()
+{
+    neo4j_run start
+}
+
+neo4j_stop()
+{
+    neo4j_run stop
+}
+
+neo4j_status()
+{
+    neo4j_run status
+}
+
+run_rc_command "$1"
