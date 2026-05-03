@@ -148,3 +148,5 @@ You can now safely remove the SD card, the system can boot from (either) USB dri
 
 ## Second boot
 
+If you chose to encrypt your user's home directory, continue to [encrypted ZFS home](./ZFS.md)
+
