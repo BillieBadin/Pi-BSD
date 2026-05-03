@@ -1,8 +1,8 @@
 # Real Time Clock
 
-When using your Pi on the go without Internet, it can be convenient to add a cheap `I2S` Real Time Clock such as a `DS3231`.
+When using your Pi on the go without Internet, it can be convenient to add a cheap `I²C` Real Time Clock such as a `DS3231`.
 
-## Enable `I2C`
+## Enable `I²C`
 
 ```sh
 vi /boot/efi/config.txt
