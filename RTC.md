@@ -40,7 +40,30 @@ i2c -f /dev/iic0 -s -v
 i2c -a 0x68 -f /dev/iic0 -o 0x00 -c 7 -d r -v
 ```
 
+## `ds3231.c`
+
 Copy `ds3231ctl.c` from this repo to your Pi and compile it
 ```sh
+# Compile
 cc -Wall -Wextra -O2 -o ds3231ctl ds3231ctl.c
+
+# Install
+install -m 0755 ds3231ctl /usr/local/sbin/ds3231ctl
 ```
+
+Example usage
+```sh
+./ds3231ctl read
+2000-01-01 00:33:10 UTC
+
+./ds3231ctl system-to-rtc
+Wrote RTC: 2026-04-27 08:23:55 UTC
+
+./ds3231ctl read
+2026-04-27 08:23:56 UTC
+
+./ds3231ctl rtc-to-system
+Set system clock from RTC: 2026-04-27 08:24:32 UTC
+```
+
+
