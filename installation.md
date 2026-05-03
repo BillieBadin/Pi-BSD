@@ -88,7 +88,10 @@ Uncomment the following line: `%wheel ALL=(ALL:ALL) ALL`
 If you enabled user home encryption, the encrypted ZFS home folder will not be mounted automatically.
 This is covered [here: encrypted ZFS home](./ZFS/ZFS.md).
 
-Elevate as root: `sudo su -`
+Elevate as root:
+```sh
+sudo su -
+```
 
 ### Install Raspberry Pi firmware on the USB drive(s) boot partition(s)
 
@@ -113,15 +116,15 @@ Copy the EFI from the original SD card:
 cp /mnt/sdboot/start4.elf /mnt/sdboot/fixup4.dat /mnt/sdboot/bcm2711-rpi-4-b.dtb /boot/efi/
 ```
 
-Install U-boot and copy `u-boot.bin` to `/boot/efi`
+Install U-boot and copy `u-boot.bin` to `/boot/efi`:
 ```sh
 pkg install u-boot-rpi4
 cp /usr/local/share/u-boot/u-boot-rpi4/u-boot.bin /boot/efi/
 ```
 
-Create config.txt:
+Create `config.txt`:
 ```sh
-vi /boot/efi/config.txt`
+vi /boot/efi/config.txt
 ```
 ```conf
 arm_64bit=1
@@ -145,7 +148,7 @@ mount | grep efi
 
 # confirm
 ls -l /dev/gpt/efiboot*
--> typically /dev/gpt/efiboot0 and /dev/gpt/efiboot1
+# typically -> /dev/gpt/efiboot0 and /dev/gpt/efiboot1
 
 # Confirm what's in fstab
 cat /etc/fstab
