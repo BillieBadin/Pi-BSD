@@ -15,7 +15,7 @@ gpio=2,3=a0
 ```sh
 vi /boot/loader.conf
 ```
-````conf
+```conf
 iicbus_load="YES"
 iic_load="YES"
 ```
