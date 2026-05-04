@@ -2,6 +2,8 @@
 
 FreeBSD on Raspberry Pi 3/4 with ZFS on root, optional ZFS mirror, and more...
 
+![Pi-BSD repo image](media/Pi-BSD_github.jpg)
+
 ## Essential
 
 - [Installation](./installation.md)
