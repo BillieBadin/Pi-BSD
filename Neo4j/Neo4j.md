@@ -1,5 +1,7 @@
 # Neo4j
 
+Note: a fuly hardened jail version of this is coming soon.
+
 ```sh
 pkg install bash
 
@@ -186,7 +188,7 @@ sysrc neo4j_enable=YES
 service neo4j start
 ```
 
-## Backup Neo4j (ZFS-style)
+## Backup (ZFS-style)
 
 ```sh
 service neo4j stop
