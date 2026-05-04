@@ -1,5 +1,7 @@
 # WireGuard
 
+## Installation
+
 ```sh
 pkg install wireguard-tools
 ```
@@ -10,6 +12,8 @@ pkg install wireguard-tools
 ```conf
 if_wg_load="YES"
 ```
+
+## Configuration
 
 ```sh
 mkdir /usr/local/etc/wireguard
@@ -31,11 +35,12 @@ chmod 600 /usr/local/etc/wireguard/wg1.conf
 
 ifconfig wg1 create
 sudo ifconfig wg1 inet N.N.N.N/M
-wg setconf wg1 /usr/local/etc/wireguard/wg2.conf
+wg setconf wg1 /usr/local/etc/wireguard/wg1.conf
 ifconfig wg1 up
 ```
 
-Make it persistent
+## Persistency and auto-start
+
 Add to `/etc/rc.conf`:
 ```conf
 # change DHCP to sync
@@ -56,7 +61,7 @@ vi /etc/start_if.wg1
 /usr/bin/wg setconf $1 /usr/local/etc/wireguard/$1.conf
 ```
 ```sh
-chmod +x /etc/start_if.wg2
+chmod +x /etc/start_if.wg1
 
 # Full reboot
 reboot
