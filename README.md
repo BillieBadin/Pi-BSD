@@ -6,7 +6,8 @@ FreeBSD on Raspberry Pi 3/4 with ZFS on root, optional ZFS mirror, and more...
 
 ## Base
 
-[Installation](./installation.md)
+- [Pi 4 installation](./installation.md)
+- [Pi zero 2 installation](./pizero_install.md)
 
 ## ZFS
 
