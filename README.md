@@ -4,16 +4,40 @@ FreeBSD on Raspberry Pi 3/4 with ZFS on root, optional ZFS mirror, and more...
 
 ![Pi-BSD repo image](media/Pi-BSD_github.jpg)
 
-## Essential
+## Base
 
-- [Installation](./installation.md)
+[Installation](./installation.md)
 
-## Bonus
+## ZFS
 
+- [ZFS mirror](./ZFS/ZFS.md)
 - [Encrypted ZFS home](./ZFS/ZFS.md)
-- [WireGuard](./WireGuard/WireGuard.md)
-- [bastille jails](./bastille/bastille.md)
-- [pf firewall](./pf/pf.md)
-- [RTC](./RTC/RTC.md)
-- [Neo4j](./Neo4j/Neo4j.md)
-- CARP + pfsync + HAST or ZFS replication (service + data failover)
+
+## firewall
+
+[pf](./pf/pf.md)
+
+## WireGuard
+
+[Configuration of WireGuard](./WireGuard/WireGuard.md)
+
+## jails
+
+- [standard (manual) jails](./jails/jails.md)
+- [managed (bastille) jails](./bastille/bastille.md)
+
+## Application hardening
+
+[capsicum](./capsicum/capsicum.md)
+
+## Hardware hacks
+
+[RTC](./RTC/RTC.md)
+
+## Software stack
+
+[Neo4j](./Neo4j/Neo4j.md)
+
+## HA
+
+CARP + pfsync + HAST or ZFS replication (service + data failover)
