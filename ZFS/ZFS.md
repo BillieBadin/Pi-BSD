@@ -61,37 +61,23 @@ vi /usr/local/libexec/zfs-home-unlock.sh
 ```sh
 #!/bin/sh
 
-case "$-" in
-    *i*) ;;
-    *) exit 0 ;;
-esac
-
-DATASET="zroot/home/$USER"
-
 case "$USER" in
     root|"")
         exit 0
         ;;
 esac
 
-if ! zfs list -H "$DATASET" >/dev/null 2>&1; then
+DATASET="zroot/home/$USER"
+
+if ! /sbin/zfs list -H "$DATASET" >/dev/null 2>&1; then
     exit 0
 fi
 
-if [ "$(zfs get -H -o value keystatus "$DATASET" 2>/dev/null)" = "available" ]; then
+if [ "$(/sbin/zfs get -H -o value keystatus "$DATASET" 2>/dev/null)" = "available" ]; then
     exit 0
 fi
 
-printf "Unlock ZFS home for %s: " "$USER"
-stty -echo
-IFS= read -r PASSPHRASE
-stty echo
-printf "\n"
-
-printf '%s\n' "$PASSPHRASE" | zfs load-key "$DATASET"
-zfs mount "$DATASET" 2>/dev/null
-
-unset PASSPHRASE
+exec /usr/local/bin/sudo /sbin/zfs mount -l "$DATASET"
 ```
 ```sh
 chmod 755 /usr/local/libexec/zfs-home-unlock.sh
@@ -107,8 +93,8 @@ vi /usr/local/etc/profile.d/zfs-home-unlock.sh
 ```
 ```sh
 #!/bin/sh
-if [ -x /usr/local/etc/zfs-home-unlock.sh ]; then
-    /usr/local/etc/zfs-home-unlock.sh
+if [ -x /usr/local/libexec/zfs-home-unlock.sh ]; then
+    /usr/local/libexec/zfs-home-unlock.sh
 fi
 ```
 ```sh
