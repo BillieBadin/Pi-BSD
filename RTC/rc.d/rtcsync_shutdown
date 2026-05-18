@@ -1,0 +1,26 @@
+#!/bin/sh
+# Pi-BSD - a FreeBSD native stack for Raspberry Pi.
+# SPDX-License-Identifier: CC BY-NC 4.0
+# SPDX-FileCopyrightText: 2026 Billie Badin, SIGORYX Engineering
+
+# PROVIDE: rtcsync_shutdown
+# REQUIRE: DAEMON
+# BEFORE: FILESYSTEMS
+# KEYWORD: nojail nostart shutdown
+
+. /etc/rc.subr
+
+name="rtcsync_shutdown"
+stop_cmd="rtcsync_shutdown_stop"
+
+rtcsync_shutdown_stop()
+{
+    : ${rtc_iic_dev:="/dev/iic0"}
+    : ${rtcsync_shutdown_iic_dev:="${rtc_iic_dev}"}
+    echo "Updating DS3231 RTC from system clock before shutdown"
+    /usr/local/sbin/ds3231ctl system-to-rtc "${rtcsync_shutdown_iic_dev}" || true
+}
+
+load_rc_config "$name"
+
+run_rc_command "$1"

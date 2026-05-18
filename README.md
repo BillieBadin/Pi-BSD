@@ -33,7 +33,7 @@ FreeBSD on Raspberry Pi 3/4 with ZFS on root, optional ZFS mirror, and more...
 
 ## Hardware hacks
 
-[RTC](./RTC/RTC.md)
+[RTC](./RTC/README.md)
 
 ## Software stack
 

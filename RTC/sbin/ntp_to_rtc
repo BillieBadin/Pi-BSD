@@ -1,0 +1,36 @@
+#!/bin/sh
+# Pi-BSD - a FreeBSD native stack for Raspberry Pi.
+# SPDX-License-Identifier: CC BY-NC 4.0
+# SPDX-FileCopyrightText: 2026 Billie Badin, SIGORYX Engineering
+
+set -u
+
+DS3231CTL="/usr/local/sbin/ds3231ctl"
+IIC_DEV="${1:-${rtc_iic_dev:-/dev/iic0}}"
+STAMP="/var/run/rtc-last-sync"
+MIN_INTERVAL="${rtc_min_interval:-3600}"
+
+now=$(date -u "+%s")
+
+if [ -f "${STAMP}" ]; then
+    last=$(cat "${STAMP}" 2>/dev/null || echo 0)
+else
+    last=0
+fi
+
+age=$((now - last))
+
+if [ "${age}" -lt "${MIN_INTERVAL}" ]; then
+    exit 0
+fi
+
+if ntpq -pn 2>/dev/null | awk '/^\*/ { found = 1 } END { exit found ? 0 : 1 }'; then
+    if "${DS3231CTL}" system-to-rtc "${IIC_DEV}"; then
+        echo "${now}" > "${STAMP}"
+        logger -t ds3231 "RTC updated from NTP-synchronised system clock"
+        exit 0
+    fi
+fi
+
+logger -t ds3231 "RTC was not updated because NTP is not synchronised or ds3231ctl failed"
+exit 1

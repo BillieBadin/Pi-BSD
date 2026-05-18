@@ -1,0 +1,2 @@
+dtparam=i2c_arm=on
+gpio=2,3=a0

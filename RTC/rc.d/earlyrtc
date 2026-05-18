@@ -1,0 +1,29 @@
+#!/bin/sh
+# Pi-BSD - a FreeBSD native stack for Raspberry Pi.
+# SPDX-License-Identifier: CC BY-NC 4.0
+# SPDX-FileCopyrightText: 2026 Billie Badin, SIGORYX Engineering
+
+# PROVIDE: earlyrtc
+# REQUIRE: mountcritlocal
+# BEFORE: FILESYSTEMS syslogd netif ntpd ntpdate
+# KEYWORD: nojail
+
+. /etc/rc.subr
+
+name="earlyrtc"
+rcvar="earlyrtc_enable"
+start_cmd="earlyrtc_start"
+stop_cmd=":"
+
+earlyrtc_start()
+{
+    : ${rtc_iic_dev:="/dev/iic0"}
+    : ${earlyrtc_iic_dev:="${rtc_iic_dev}"}
+    echo "Setting system clock from DS3231 RTC"
+    /usr/local/sbin/ds3231ctl rtc-to-system "${earlyrtc_iic_dev}"
+}
+
+load_rc_config "$name"
+: ${earlyrtc_enable:="NO"}
+
+run_rc_command "$1"

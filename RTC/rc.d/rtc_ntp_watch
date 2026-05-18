@@ -1,0 +1,23 @@
+#!/bin/sh
+# Pi-BSD - a FreeBSD native stack for Raspberry Pi.
+# SPDX-License-Identifier: CC BY-NC 4.0
+# SPDX-FileCopyrightText: 2026 Billie Badin, SIGORYX Engineering
+
+# PROVIDE: rtc_ntp_watch
+# REQUIRE: ntpd
+# KEYWORD: nojail
+
+. /etc/rc.subr
+
+name="rtc_ntp_watch"
+rcvar="rtc_ntp_watch_enable"
+pidfile="/var/run/${name}.pid"
+command="/usr/sbin/daemon"
+
+load_rc_config "$name"
+: ${rtc_ntp_watch_enable:="NO"}
+: ${rtc_iic_dev:="/dev/iic0"}
+
+command_args="-f -p ${pidfile} /bin/sh -c 'while :; do /usr/local/sbin/ntp_to_rtc ${rtc_iic_dev}; sleep 300; done'"
+
+run_rc_command "$1"
